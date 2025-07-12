@@ -58,6 +58,9 @@ function Signup() {
 if(user?.success){
       navigate("/dashboard")
     }
+    else{
+      setError(userStore.error);
+    }
 
   };
 
