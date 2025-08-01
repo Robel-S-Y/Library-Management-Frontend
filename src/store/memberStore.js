@@ -81,7 +81,7 @@ export const useMemberStore = create ((set) =>({
             if(response.status== 200)
                 {
                     set({error:null})
-                    console.log('member updated to:')
+                   // console.log('member updated to:')
                     setTimeout(()=>{set({saving:false}) },1000)
                     return {success:true};
                 }
@@ -110,7 +110,7 @@ export const useMemberStore = create ((set) =>({
                         
                         error:null
                     })
-                    console.log('member:',response.data)
+                   // console.log('member:',response.data)
                     setTimeout(()=>{set({loading:false}) },1000)
                 }
             else{
@@ -170,7 +170,7 @@ export const useMemberStore = create ((set) =>({
                             },
                             error:null
                         })
-                    console.log('post:',response.data.title)
+                    //console.log('post:',response.data.title)
                     setTimeout(()=>{set({loading:false}) },1000)
                 }
             else{

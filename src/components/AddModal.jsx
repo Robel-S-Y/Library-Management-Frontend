@@ -166,7 +166,9 @@ export default function AddModal({ isOpen, onClose, onSubmit, formData, setFormD
 
           {!isGenres() && !isBooks() && (
             <div className="grid gap-4 py-4">
+              
               {/* Full Name */}
+              {!isStaff() && (
               <div className="grid gap-2">
                 <label htmlFor="name" className="text-sm font-medium w-fit">Full Name</label>
                 <input
@@ -177,7 +179,22 @@ export default function AddModal({ isOpen, onClose, onSubmit, formData, setFormD
                   onChange={(e) => setFormData({ ...formData, name: e.target.value })}
                   className="h-10 w-full rounded-md border px-3 py-2 text-sm border-gray-200"
                 />
-              </div>
+              </div>)}
+
+              
+              {/* Username */}
+              {isStaff() && (
+              <div className="grid gap-2">
+                <label htmlFor="username" className="text-sm font-medium w-fit">username</label>
+                <input
+                  id="username"
+                  required
+                  placeholder="Enter username"
+                  value={formData.username}
+                  onChange={(e) => setFormData({ ...formData, username: e.target.value })}
+                  className="h-10 w-full rounded-md border px-3 py-2 text-sm border-gray-200"
+                />
+              </div>)}
 
               {/* Email */}
               <div className="grid gap-2">
@@ -194,6 +211,7 @@ export default function AddModal({ isOpen, onClose, onSubmit, formData, setFormD
               </div>
 
               {/* Phone */}
+              {!isStaff() && (
               <div className="grid gap-2">
                 <label htmlFor="phone" className="text-sm font-medium w-fit">Phone Number</label>
                 <input
@@ -206,7 +224,7 @@ export default function AddModal({ isOpen, onClose, onSubmit, formData, setFormD
                   className="h-10 w-full rounded-md border px-3 py-2 text-sm border-gray-200"
                 />
               </div>
-
+              )}
               {/* Role - Only for Staff */}
               {isStaff() && (
                 <>

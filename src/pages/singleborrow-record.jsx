@@ -17,7 +17,7 @@ function Singleborrow_return() {
 const borrow=borrow_returnStore.borrow;
 const borrowed_book=borrow.book;
 const borrower_member=borrow.member;
-console.log(borrowed_book?.title)
+
 
 
 

@@ -4,6 +4,7 @@ import DeleteModal from '../components/DeleteModal';
 import EditModal from "../components/EditModal";
 import ViewModal from "../components/ViewModal";
 import { useStaffStore } from "../store/staffStore";
+import AddModal from '../components/AddModal';
 
 
 function Staff() {
@@ -20,6 +21,13 @@ function Staff() {
     const [showSuccess, setShowSuccess] = useState(false);
     const [ShowError, setShowError] = useState(false);
     const [message,setMessage]=useState('');
+      const [formData, setFormData] = useState({
+    username: "",
+    email: "",
+    role: "",
+    password: "",
+    confirmPassword: ""
+  });
     const [editFormData, setEditFormData] = useState({
       username: "",
       email: "",
@@ -35,7 +43,7 @@ function Staff() {
 
   const handleEdit = async (e) => {
     e.preventDefault();
-    console.log("Editing staff:", editFormData);
+
 
      setError("");
   
@@ -94,7 +102,86 @@ function Staff() {
     
   };
 
+const handleCreate = async (e) => {
+  e.preventDefault();
+
+  
+
+  setError("");
+  
+
+  if (!formData.username?.trim()) {
+    setError("Username is required");
     
+    return;
+  }
+
+  if (!formData.email?.trim()) {
+    setError("Email is required");
+    
+    return;
+  }
+
+  if (!formData.role?.trim()) {
+    setError("role is required");
+    
+    return;
+  }
+
+  if (!formData.password?.trim()) {
+    setError("password is required");
+    
+    return;
+  }
+
+  if (!formData.confirmPassword?.trim()) {
+    setError("Confirm your password.");
+    
+    return;
+  }
+
+      // Basic validation
+    if (formData.password !== formData.confirmPassword) {
+      setError("Passwords do not match");
+      //setIsLoading(false);
+      return;
+    }
+
+    if (formData.password.length < 6) {
+      setError("Password must be at least 6 characters long");
+     //setIsLoading(false);
+      return;
+    }
+
+  const staff = await staffStore.createStaff({
+    username: formData.username.trim(),
+    email: formData.email.trim(),
+    role: formData.role,
+    password: formData.password
+  });
+
+  if (staff?.success) {
+    setIsAddModalOpen(false);
+    setRefreshTrigger(prev => prev + 1);
+      setShowSuccess(true)
+    setMessage(`Success! Staff ${formData.title} created successfully`)
+    setTimeout(() => {
+      setShowSuccess(false)
+    }, 2000);
+    }
+      else
+    {
+      setError(staffStore.error)
+      setIsAddModalOpen(false);
+      setTimeout(() => {
+      setShowError(true)
+    }, 200);
+     setTimeout(() => {
+      setShowError(false)
+    }, 2200);
+    }
+};
+
 
   useEffect(()=>{
         staffStore.getStaffs();
@@ -123,7 +210,17 @@ function Staff() {
       <div class="flex justify-between items-center">
         <div>
           <h1 class="text-3xl font-bold text-gray-900 w-fit">Staff Management</h1>
-          <p class="text-gray-600">Manage library staff and administrators (Admin Only)</p></div>            
+          <p class="text-gray-600">Manage library staff and administrators (Admin Only)</p></div> 
+                <button 
+      onClick={() => setIsAddModalOpen(true)}
+      className="bg-black text-white inline-flex items-center 
+      justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium 
+      ring-offset-background transition-colors hover:opacity-80 hover:cursor-pointer 
+      [&amp;_svg]:pointer-events-none [&amp;_svg]:size-4 [&amp;_svg]:shrink-0 bg-primary 
+      text-primary-foreground hover:bg-primary/90 h-10 px-4 py-2"><svg xmlns="http://www.w3.org/2000/svg"
+      width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" 
+      stroke-linecap="round" stroke-linejoin="round" className="lucide lucide-plus mr-2 h-4 w-4">
+        <path d="M5 12h14"></path><path d="M12 5v14"></path></svg>Add Staff</button>           
             </div>
 
             <div class="relative">
@@ -260,7 +357,14 @@ function Staff() {
                                             viewData={viewData}
                                           />
                                           
-
+                                              <AddModal
+                                                  isOpen={isAddModalOpen}
+                                                  onClose={() => setIsAddModalOpen(false)}
+                                                  onSubmit={handleCreate}
+                                                  formData={formData}
+                                                  setFormData={setFormData}
+                                                  setError={setError}
+                                                />
                                         
                                         </div>
   );

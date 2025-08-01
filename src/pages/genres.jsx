@@ -26,7 +26,7 @@ function Genres() {
 
   const handleCreate = async (e) => {
   e.preventDefault();
-  console.log("Creating:", formData);
+
   
 
   setError("");

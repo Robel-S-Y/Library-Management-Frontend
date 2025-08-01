@@ -40,7 +40,7 @@ function Members() {
 
   const handleEdit = async (e) => {
     e.preventDefault();
-    console.log("Editing member:", editFormData);
+
 
      setError("");
   
@@ -100,7 +100,7 @@ function Members() {
 
  const handleCreate = async (e) => {
   e.preventDefault();
-  console.log("Creating:", formData);
+
   
 
   setError("");

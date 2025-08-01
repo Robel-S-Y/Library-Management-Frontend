@@ -36,7 +36,7 @@ const handleMoreClick = () => {
   }, [isOpen, onClose]);
 
   if (!isOpen) return null;
-  console.log(viewData)
+ 
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center">

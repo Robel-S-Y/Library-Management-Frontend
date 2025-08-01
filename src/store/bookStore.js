@@ -87,7 +87,6 @@ export const useBookStore = create ((set) =>({
             if(response.status== 200)
                 {
                     set({error:null})
-                    console.log('book updated to:')
                     setTimeout(()=>{set({saving:false}) },1000)
                     return {success:true};
                 }
@@ -116,7 +115,7 @@ export const useBookStore = create ((set) =>({
                         
                         error:null
                     })
-                    console.log('book:',response.data)
+                    //console.log('book:',response.data)
                     setTimeout(()=>{set({loading:false}) },1000)
                 }
             else{
@@ -153,7 +152,7 @@ export const useBookStore = create ((set) =>({
                         }
                         ,error:null
                     })
-                    console.log('post:',response.data.title)
+                   // console.log('post:',response.data.title)
                     setTimeout(()=>{set({loading:false}) },1000)
                 }
             else{

@@ -10,13 +10,14 @@ export const useUserStore = create ((set) => ({
     user:null,
     isAuthenticated:x,
     error:null,
+    loginerror:null,
     loading:false,
 
     
     login: async ({email,password})=>{
      
         try{            
-            set({loading:true, error:null, isAuthenticated:false,user:null});
+            set({loading:true, loginerror:null, isAuthenticated:false,user:null});
             const response = await api.post('/auth/login',{email,password});
              let msg=response.status
              if (msg=='201')
@@ -24,15 +25,18 @@ export const useUserStore = create ((set) => ({
                 set({
                     user:response.data.user,
                     isAuthenticated:true,
-                    error:null,
+                    loginerror:null,
                 })
                 setTimeout(()=>{set({loading:false}) },1000)
-                Cookies.set('access_token',response.data.access_token,{expires: 1,path:'/'});//expires after 1 day
+                Cookies.set('access_token',response.data.access_token,{expires: 1,path:'/'});
+                localStorage.setItem('username',response.data.user.role)
+                localStorage.setItem('email',response.data.user.email)
+                localStorage.setItem('role',response.data.user.role)
                return {success:true}
              }
              else{
                 set({
-                    error:'Login failed. Please check your credentials',
+                    loginerror:'Login failed. Please check your credentials',
                 })
                 setTimeout(()=>{set({loading:false}) },1000)
                 return {success:false}
@@ -41,7 +45,7 @@ export const useUserStore = create ((set) => ({
         catch(error){
          console.error("Login failed:",error?.response) 
          set({
-            error:error.response?.data?.message||"An error occured during login.",
+            loginerror:error.response?.data?.message||"An error occured during login.",
             isAuthenticated:false,
             user:null
          }); 
@@ -105,7 +109,6 @@ export const useUserStore = create ((set) => ({
                 if(response.status== 200)
                     {
                         set({user:response.data,error:null})
-                        //console.log('books:',response.data)
                         setTimeout(()=>{set({loading:false}) },1000)
                     }
                 else{

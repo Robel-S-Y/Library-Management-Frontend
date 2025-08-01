@@ -46,7 +46,6 @@ function Books() {
 
   const handleEdit = async (e) => {
     e.preventDefault();
-    console.log("Editing genre:", editFormData);
 
      setError("");
   
@@ -113,7 +112,7 @@ function Books() {
 
   const handleCreate = async (e) => {
   e.preventDefault();
-  console.log("Creating:", formData);
+ 
   
 
   setError("");

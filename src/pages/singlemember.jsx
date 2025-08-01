@@ -32,7 +32,7 @@ function SingleMember() {
 
   const handleEdit = async (e) => {
     e.preventDefault();
-    console.log("Editing member:", editFormData);
+
 
      setError("");
   

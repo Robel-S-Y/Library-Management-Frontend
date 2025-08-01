@@ -31,7 +31,7 @@ function SingleBook() {
 
   const handleEdit = async (e) => {
     e.preventDefault();
-    console.log("Editing genre:", editFormData);
+
 
      setError("");
   

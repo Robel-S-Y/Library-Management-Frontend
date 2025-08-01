@@ -3,13 +3,13 @@ import { Link, useNavigate } from "react-router-dom";
 import { useUserStore } from '../store/userStore.js'
 
 function Login() {
+  const [error,setError]=useState('');
   const [formData, setFormData] = useState({
     email: "",
     password: "",
   });
  
  const userStore =useUserStore((state)=> state);
- //const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
 
   const handleChange = (e) => {
@@ -21,22 +21,19 @@ function Login() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    //setIsLoading(true);
+  
 
     const user=await userStore.login({email:formData.email, password:formData.password})
 
-    //console.log('User:', user)
     if(user?.success){
       navigate("/dashboard")
     }
-  
+   else
+   {
+    setError(userStore.loginerror)
+   }
 
-    //setTimeout(()=>{
-      //setIsLoading(false);
-
-      //navigate("/posts");
-    //},1000)
-  
+ 
   };
 
   return (
@@ -70,9 +67,9 @@ function Login() {
           </p>
         </div>
 
-        {userStore?.error && (//&& is for if not null(false) display the error
+        {error && (//&& is for if not null(false) display the error
           <div className="bg-red-50 border border-red-200 text-red-600 px-4 py-3 rounded-md text-sm">
-            {userStore?.error}
+            {error}
           </div>
         )}
         </div>

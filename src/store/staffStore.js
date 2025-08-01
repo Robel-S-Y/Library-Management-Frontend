@@ -14,6 +14,35 @@ export const useStaffStore = create ((set) =>({
         },
     
   
+     createStaff: async (staff) => {
+  try {
+    set({ loading: true, error: null });
+
+    const response = await api.post('/staff', {
+      username: staff.username,
+      email: staff.email,
+      password: staff.password,
+      role: staff.role
+    });
+
+    if (response.status === 201) {
+      setTimeout(() => set({ loading: false }), 1000);
+      set({ error: null });
+      return { success: true };
+    } else {
+      set({ error: `Failed to create staff ${staff.username}` });
+      setTimeout(() => set({ loading: false }), 1000);
+      return { success: false };
+    }
+  } catch (error) {
+    console.error('creating failed:', error?.response);
+    set({
+      error: error.response?.data?.message || `An error occurred during creating staff ${staff.username}.`,
+    });
+    setTimeout(() => set({ loading: false }), 1000);
+    return { success: false };
+  }
+},
 
 
     getStaffs: async() =>{
@@ -50,7 +79,7 @@ export const useStaffStore = create ((set) =>({
             if(response.status== 200)
                 {
                     set({error:null})
-                    console.log('staff updated to:')
+                   // console.log('staff updated to:')
                     setTimeout(()=>{set({saving:false}) },1000)
                     return {success:true};
                 }
@@ -79,7 +108,7 @@ export const useStaffStore = create ((set) =>({
                         
                         error:null
                     })
-                    console.log('staff:',response.data)
+                   // console.log('staff:',response.data)
                     setTimeout(()=>{set({loading:false}) },1000)
                 }
             else{

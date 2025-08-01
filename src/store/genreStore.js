@@ -71,7 +71,7 @@ export const useGenreStore = create ((set) =>({
                         
                         error:null
                     })
-                    console.log('genre:',response.data)
+                   // console.log('genre:',response.data)
                     setTimeout(()=>{set({loading:false}) },1000)
                 }
             else{

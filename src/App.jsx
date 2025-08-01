@@ -28,7 +28,7 @@ function ProtectedRoutes() {
     userStore.getProfile();
   },[])
 
-  const userrole=userStore.user?.role
+  const userrole=userStore.user?.role || localStorage.getItem('role')
         const isAdmin=()=>{
       return userrole==='admin'
     }

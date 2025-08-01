@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { Link,useLocation } from 'react-router-dom';
+import { Link,useLocation,useNavigate } from 'react-router-dom';
 import Navigation from './Navigation';
 import * as DropdownMenu from "@radix-ui/react-dropdown-menu";
 import { LogOut, User,Menu,X } from "lucide-react";
@@ -8,19 +8,24 @@ import { useUserStore } from '../store/userStore';
 
 function AppLayout({ children }) {
   const location = useLocation();
+  const navigate = useNavigate();
   const userStore =useUserStore((state)=> state);
+  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+  const hideNavOn = ['/login','/signup'];
+  const shouldHideNav = hideNavOn.includes(location.pathname);
 
+
+if(!shouldHideNav)
+{
   useEffect(()=>{
     userStore.getProfile();
   },[])
-  const username=userStore.user?.username;
-  const userrole=userStore.user?.role
-  const userchar=userStore.user?.username.slice(0,1)
-  const hideNavOn = ['/login','/signup'];
+}
+  const username=userStore.user?.username || localStorage.getItem('username');
+  const userrole=userStore.user?.role || localStorage.getItem('role')
+  const userchar=userStore.user?.username.slice(0,1) || localStorage.getItem('username').slice(0,1)
 
-  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
 
-  const shouldHideNav = hideNavOn.includes(location.pathname);
 if(!shouldHideNav)
 {
   return (
@@ -40,7 +45,7 @@ if(!shouldHideNav)
     </button>
   </div>
 
-  {/* Now Navigation is properly rendered inside the sidebar */}
+ 
   <Navigation />
 </div>
 

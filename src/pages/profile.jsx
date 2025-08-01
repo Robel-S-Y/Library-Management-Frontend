@@ -11,9 +11,9 @@ function Profile() {
   useEffect(()=>{
     userStore.getProfile();
   },[])
-  const username=userStore.user?.username;
-  const useremail=userStore.user?.email;
-  const userrole=userStore.user?.role
+  const username=userStore.user?.username || localStorage.getItem('username');
+  const useremail=userStore.user?.email || localStorage.getItem('email');
+  const userrole=userStore.user?.role || localStorage.getItem('role')
 
   const isAdmin=()=>{
     return userrole==='admin'
